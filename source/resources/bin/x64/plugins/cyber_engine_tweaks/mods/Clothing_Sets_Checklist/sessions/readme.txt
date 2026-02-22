@@ -1,0 +1,1 @@
+Clothing Sets Checklist user data is stored in this folder
