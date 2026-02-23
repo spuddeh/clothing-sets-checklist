@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Shared utility functions and constants for Checklist Mods
--- Mod Version: 1.2.1
+-- Mod Version: 1.2.3
 -- ======================================================================================
 
 local Utils = {}

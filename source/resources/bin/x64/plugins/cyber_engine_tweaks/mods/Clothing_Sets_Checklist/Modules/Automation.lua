@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Handles Passive (Proximity) detection of Clothing Items.
--- Mod Version: 1.2.1
+-- Mod Version: 1.2.3
 -- ======================================================================================
 
 local Automation = {}

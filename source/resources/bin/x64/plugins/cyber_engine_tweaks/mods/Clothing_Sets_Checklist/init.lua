@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Tracks Role Sets clothing items using Shared UI and Persistent Settings.
--- Mod Version: 1.2.1
+-- Mod Version: 1.2.3
 --=======================================================================================
 
 local ClothingSetsDB = require("db")
@@ -153,15 +153,15 @@ local uiCallbacks = {
         if ImGui.Button(IconGlyphs.Gift .. " Give Item") then
             local player = GetPlayer()
             if player and entry.baseID then
-                -- Ensure prefix
+                -- Ensure "Items." prefix for TweakDB path
                 local finalID = entry.baseID
                 if not string.find(finalID, "Items%.") then
                     finalID = "Items." .. finalID
                 end
 
-                local tid = TweakDBID.new(finalID)
-                local iid = ItemID.new(tid)
-                Game.GetTransactionSystem():GiveItem(player, iid, 1)
+                -- Use Game.AddToInventory for save-persistent item granting
+                -- (TransactionSystem:GiveItem creates transient items that vanish on reload)
+                Game.AddToInventory(finalID, 1)
                 Utils.Notify("Item Added: " .. entry.name)
                 Automation.SetItemStatus(entry.id, true)
             end

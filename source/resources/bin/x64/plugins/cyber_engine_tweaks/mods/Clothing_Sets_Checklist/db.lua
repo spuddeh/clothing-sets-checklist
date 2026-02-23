@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Database of Cyberpunk 2077 Role Sets clothing items.
--- Mod Version: 1.2.1
+-- Mod Version: 1.2.3
 --=======================================================================================
 
 local ClothingSetsDB = {

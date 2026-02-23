@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Handles drawing the Settings tab and standard mod functions.
--- Mod Version: 1.2.1
+-- Mod Version: 1.2.3
 -- ======================================================================================
 
 local SettingsUI = {}
