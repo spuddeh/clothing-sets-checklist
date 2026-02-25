@@ -1,67 +1,194 @@
-[center][size=6][color=#ffff00][b]Relic Terminal Checklist[/b][/color][/size]
-[size=4]An in-game UI checklist to track all 9 Relic Terminals.[/size][/center]
+[center][size=6][color=#ffff00][b]Clothing Sets Checklist[/b][/color][/size]
+[size=4]An in-game UI checklist to track [i]almost [/i]all unique clothing sets.[/size][/center]
 
-Made for by request, based on my [url=https://www.nexusmods.com/cyberpunk2077/mods/25594]Perk Shard Checklist[/url] mod.
+Inspired by my [url=https://www.nexusmods.com/cyberpunk2077/mods/25594]Perk Shard Checklist[/url] and [url=https://www.nexusmods.com/cyberpunk2077/mods/25755]Relic Terminal Checklist[/url] mods
 
-This mod adds a simple, in-game UI to track all 9 Relic Terminals so you never have to alt-tab again.
+This mod adds a simple, in-game UI to track [i]almost[/i] all unique clothing sets so you never have to alt-tab again.
 
-[center][img]https://i.imgur.com/WKUrfSX.gif[/img][/center]
+[center][/center][img]https://i.imgur.com/uw4vHhK.gif[/img]
+
 [line]
 [size=5][color=#ffff00][b]New in 2.0.0: The Automation Update[/b][/color][/size]
 [list]
-[*][b]Proximity Scanner:[/b] Passively detects uncollected Relic Terminals nearby (50m range) and marks them on your HUD.
-[*][b]Smart Pause:[/b] The scanner automatically pauses during Loading Screens, Fast Travel, and Menus to save performance. It includes a smart "Fade-In" grace period so you don't get spammed with notifications the instant you load in.
-[*][b]Zero-Overhead:[/b] Heavily optimized to ensure it has negligible impact on your FPS.
+[*][b]Proximity Scanner:[/b] Passively detects uncollected items nearby (50m range) as you play the game and marks them on your HUD.
+[*][b]Smart Pause:[/b] The scanner automatically pauses during Loading Screens, Fast Travel, and Menus to save performance. It includes a smart "Fade-In" grace period.
+[*][b]Zero-Overhead:[/b] Heavily optimised to ensure it has a negligible impact on your FPS.
 [/list]
 [line]
 [size=5][color=#ffff00][b]Features[/b][/color][/size]
 [list]
-[*][b]Automatic Tracking[/b]: Passively detects Relic Terminals as you play and checks them off once collected.
-[*][b]In-Game Checklist[/b]: Track or view your progress on all 9 Terminals in Dogtown.
+[*]An in-game UI checklist that automatically tracks clothing sets as you collect them.
 [*]Progress is saved automatically with your game save (per-character).
 [*]A [b]Settings[/b] tab to configure the new Proximity Scanner (Radius, Interval) and optional [b]Lazy Mode[/b].
-[*]In-game descriptions, closest fast travel points, and location info for every terminal.
-[*]A [b]Set Map Pin[/b] button to create a waypoint to the terminal's location.
-[*]A [b]Teleport[/b] button (in Lazy Mode) to instantly teleport to the terminal.
-[*]An [b]Unstuck[/b] button (in Lazy Mode) to teleport you to V's H10 apartment if you get stuck.
-[*]A counter to see your total collected terminals.
+[*]In-game directions, closest fast travel points, and location info for every piece of clothing.
+[*]A [b]Set Pin[/b] button to create a waypoint to the item's location.
+[*]A [b]Teleport[/b] button (in Lazy Mode) to instantly teleport to the item.
+[*]A [b]Give Item[/b] button in case you're feeling extra lazy (or sold/salvaged the item).
+[*]An [b]Unstuck[/b] button (in Lazy Mode) to teleport you to V's H10 apartment if you get stuck due to a teleportation mishap.
+[*]Counters to keep track of how many items/sets you've collected.
 [/list]
+I decided not to include the life path clothing sets or epilogue clothing sets. Aside from those, I should have most of the sets from the game covered. If there is anything I've missed, let me know.
+
 [line]
 [size=5][color=#ffff00][b]How to Use[/b][/color][/size]
 [list=1]
 [*]Open the Cyber Engine Tweaks overlay.
-[*]The "Relic Terminal Checklist" window will appear.
-[*]Click the checkboxes to mark your progress manually, or let the [b]Proximity Scanner[/b] handle that for you.
-[*][b]Proximity Scanning[/b]: Enable (default) this in the [b]Settings[/b] tab to see nearby items on your HUD as you play.
+[*]The [b]Clothing Sets Checklist[/b] window will appear.
+[*]Click the sets tabs and items to get information on how to obtain the items.
+[*][b]Automatic Tracking[/b]: Progress is automatically saved by checking your Wardrobe. If you have already collected some items, they will show up instantly.
+[*][b]Proximity Scanning[/b]: Enable (default) this in the [b]Settings[/b] tab to see nearby items on your HUD as you play. 
 [list][*]You can also adjust how frequently the scan occurs (default 3.0s), as well as the range (default 50m).
-[/list][*]To save your progress, [b]Quicksave (F5)[/b] or [b]Manual Save[/b] your game. The progress is tied to that save file.
-[/list]
+[/list][/list][*]To save your character's progress, [b]Quicksave (F5)[/b] or [b]Manual Save[/b] your game. The progress is tied to that save file.
 [line]
 [size=5][color=#ffff00][b]Lazy Mode[/b][/color][/size]
-For those who just want to get it done, you can enable "Lazy Mode" in the Settings tab. This will show the "Teleport" and "Unstuck" buttons.
+For those who just want to get it done, you can enable [b]Lazy Mode[/b] in the Settings tab. This will show the [b]Teleport,[/b] [b]Give Item[/b], and [b]Unstuck[/b] buttons.
 
 [color=#e06666][b]WARNING:[/b][/color] Using teleport functions can be risky. It may cause issues with your save or get you stuck. Use at your own risk and always have a recent manual save!
 
 [line]
 [size=5][color=#ffff00][b]Installation[/b][/color][/size]
 [list=1]
-[*]Install with a mod manager (recommended).
 [*]Install [url=https://www.nexusmods.com/cyberpunk2077/mods/107]Cyber Engine Tweaks[/url].
+[*]Install with a mod manager (recommended).
 [*]For manual install, download and extract the main file into your Cyberpunk 2077 game directory.
+[/list][line]
+[b][color=#ffff00][size=4]Click to view the full list of Clothing Sets included
+[/size][/color][/b]Most of the set info came from [url=https://cyberpunk.fandom.com/wiki/Cyberpunk_2077_Cosmetic_Sets]Cyberpunk 2077 Cosmetic Sets[/url] and various fragmented sources on the internet. Most of which is out of date as of patch 2.0. So, this mod required a lot of running around in-game, finding the locations, and writing down directions.
+[spoiler]
+[b]Badge[/b]
+[list]
+[*]Holo-tinted badge goggles
+[*]Heavy-duty aramid-reinforced badge coat
+[*]Epoxy-composite armored badge vest
+[*]Anti-puncture neotac badge pants
+[*]Waterproof badge combat boots
 [/list]
+[b]Corporate[/b]
+[list]
+[*]Tactical hybrid-glass corporate glasses
+[*]Corporate blazer with bulletproof lining
+[*]Carbonweave silk corporate shirt
+[*]Breathable reinforced bio-cotton corporate slacks
+[*]Ergonomic reinforced corporate evening shoes
+[/list]
+[b]Fixer[/b]
+[list]
+[*]Polycarbonate opti-enhanced fixer glasses
+[*]Trilayer aramid-weave fixer skirt with jacket
+[*]Heat-resistant aramid-weave fixer bustier
+[*]Protective-layer fixer pants
+[*]Elastiweave fixer pumps with reinforced seams
+[/list]
+[b]Media[/b]
+[list]
+[*]Media baseball cap with reactive layer
+[*]Armored media ocuset with camera
+[*]Laminate-armor media ballistic vest
+[*]Heat-resistant nanoweave media shirt
+[*]Anti-piercing tactical media cargo pants
+[/list]
+[b]Netrunner[/b]
+[list]
+[*]Antisurge ICE-protected netrunner infovisor
+[*]Heat-resistant hybridweave netrunning suit
+[*]Dura-membrane netrunner neotac pants
+[*]Hardened netrunner boots with composite inserts
+[/list]
+[b]Nomad[/b]
+[list]
+[*]Manganese-laminate nomad gas mask
+[*]Duolayer microplate-mesh nomad jacket
+[*]Polycarbonate nomad shirt with reinforced seams
+[*]Ultralight tear-resistant nomad pants
+[*]Durable bioleather nomad western boots
+[/list]
+[b]Rocker[/b]
+[list]
+[*]Scratch-resistant polarized rocker aviators
+[*]Reinforced composite-lined rocker foldtop
+[*]Armorweave rocker bra
+[*]Elastic flame-resistant rocker pants
+[*]Puncture-resistant rocker ankle boots
+[/list]
+[b]Solo[/b]
+[list]
+[*]Titanium solo techgogs with tactical software
+[*]Heavy shock-absorbent solo jacket
+[*]Ultrathin composite-print solo shirt
+[*]Armor-plated synleather solo pants
+[*]Gold-tipped manganese steel solo boots
+[/list]
+[b]Techie[/b]
+[list]
+[*]Cushioned techie baseball cap
+[*]Laminated ICE-protected techie ocuset
+[*]Thermoactive tear-resistant techie shirt
+[*]Reinforced duolayer techie cargo pants
+[*]Cushioned aramid-sole techie shoes
+[/list]
+[b]V's Set[/b][list]
+[*]V's Favorite Shirt
+[*]V's Pants
+[*]V's Sneakers
+[/list]
+[b]Yorinobu[/b]
+[list]
+[*]Kotetsu no Ryu coat
+[*]Yorinobu's Formal Shirt
+[*]Yorinobu's Slacks
+[/list]
+[b]Silverhand[/b]
+[list]
+[*]Johnny's Aviators
+[*]Replica of Johnny's Samurai Jacket
+[*]Johnny's Tank Top
+[*]Johnny's Pants
+[*]Johnny's Shoes
+[/list]
+[b]Patch Quests[/b]
+[list]
+[*]David's Jacket
+[*]The Joker of Night City T-shirt
+[/list]
+[b]MaxTac[/b]
+[list]
+[*]MaxTac tactical helmet with multifunction infovisor
+[*]MaxTac multilayered armor-weave Jacket
+[*]Heavy-duty MaxTac cargo pants
+[/list]
+[b]NUS Infiltrator[/b]
+[list]
+[*]NUS Infiltrator Helmet
+[*]NUS Infiltrator Jacket
+[*]NUS Infiltrator Pants
+[*]NUS Infiltrator Boots
+[/list]
+[b]GOG[/b]
+[list]
+[*]Wolf School Jacket
+[*]Wolf School T-shirt
+[*]Galaxy T-shirt
+[*]Rarog Vest
+[*]Wild Hunt Jacket
+[*]GWENT T-shirt
+[/list][/spoiler]
+
+[line]
+[size=5][color=#ffff00][b]Reccomendations[/b][/color][/size]
+This mod pairs fantastically with [url=https://www.nexusmods.com/cyberpunk2077/mods/8103]Set Bonuses[/url] by [url=https://www.nexusmods.com/cyberpunk2077/users/4211422]apart[/url]. [size=1][i]Recent updates to that mod made me get off my butt and finally finish this one![/i][/size]
+
 [line]
 [size=5][color=#ffff00][b]Known Issues[/b][/color][/size]
 [list]
 [*]When you use the "Set Map Pin" button, the breadcrumbs (navigation path) may not appear immediately. You will need to [b]open and close your in-game Map (M)[/b] for the path to appear.
-[*][b]Retroactive Tracking[/b]: Unfortunately, Relic Terminals do not set a unique value in your save file we can just look up once they are collected. The mod cannot retroactively detect terminals you picked up [i]before[/i] installing, but the Proximity Scanner will allow you to quickly verify locations as you get near them.
 [/list]
 [line]
 [size=5][color=#ffff00][b]Inspiration & Credits[/b][/color][/size]
-A massive shoutout to [url=https://next.nexusmods.com/profile/Toney][b]Toney[/b] [/url]for coming up with the idea for this mod! I also want to credit [b]yakuzadeso[/b], as their [url=https://www.nexusmods.com/cyberpunk2077/mods/17452]Iconic Weapons Checklist[/url] was a heavy inspiration for how I put this together.
+This mod (and my other checklist mods) was heavily inspired by [b][url=https://www.nexusmods.com/cyberpunk2077/mods/17452]Iconic Weapons Checklist[/url][/b] by [b]yakuzadeso[/b].
 
 This mod would not be possible without:
 [list]
-[*][b]yamashi[/b] and the CET team for creating [url=httpsA://www.nexusmods.com/cyberpunk2077/mods/107]Cyber Engine Tweaks[/url].
+[*][b]yamashi[/b] and the CET team for creating [url=https://www.nexusmods.com/cyberpunk2077/mods/107]Cyber Engine Tweaks[/url].
 [*][b]psiberx[/b] for their amazing [url=https://github.com/psiberx/cp2077-cet-kit]CET Kit[/url] and especially the 'GameSession.lua' module, which handles all the per-save-file saving.
 [*]The Cyberpunk 2077 Modding community for all the public documentation and guides.
 [/list]
