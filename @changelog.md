@@ -1,3 +1,9 @@
+### [2026-03-21] v1.2.4 Data Update
+- **[CSC] [db.lua] v1.2.4**:
+    - [Data] Added quest fact checks for Johnny's Shoes and Johnny's Pants to prevent proximity scanner from triggering before the items are accessible.
+- **[CSC] [All Files] v1.2.4**:
+    - [Chore] Bumped version headers from 1.2.3 to 1.2.4 across all mod files.
+
 ### [2026-02-24] v1.2.3 Bugfix
 - **[CSC] [init.lua] v1.2.3**:
     - [Fix] Fixed "Give Item" button granting transient items that vanished on save/reload. Replaced `TransactionSystem:GiveItem()` with `Game.AddToInventory()` for save-persistent item granting.

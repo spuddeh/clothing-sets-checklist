@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Database of Cyberpunk 2077 Role Sets clothing items.
--- Mod Version: 1.2.3
+-- Mod Version: 1.2.4
 --=======================================================================================
 
 local ClothingSetsDB = {
@@ -874,7 +874,8 @@ local ClothingSetsDB = {
                 sub_district = "The Glen",
 
                 -- Automation Keys (Populated via Inspector)
-                container_id = 11741236633125004063ULL
+                container_id = 11741236633125004063ULL,
+                quest_fact = "gle_03_start"
             },
             {
                 id = "silverhand_shoes",
@@ -889,7 +890,8 @@ local ClothingSetsDB = {
                 sub_district = "Charter Hill",
 
                 -- Automation Keys (Populated via Inspector)
-                container_id = 7307781469191091041ULL
+                container_id = 7307781469191091041ULL,
+                quest_fact = "hil_06_start"
             }
         }
     },

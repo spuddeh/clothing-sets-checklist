@@ -3,7 +3,7 @@
 -- Author: Spuddeh
 -- Description: Shared UI Module for Checklist Mods.
 --              Handles drawing the TabBar, List, and Detail views.
--- Mod Version: 1.2.3
+-- Mod Version: 1.2.4
 --=======================================================================================
 
 local ChecklistUI = {}

@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Tracks Role Sets clothing items using Shared UI and Persistent Settings.
--- Mod Version: 1.2.3
+-- Mod Version: 1.2.4
 --=======================================================================================
 
 local ClothingSetsDB = require("db")
