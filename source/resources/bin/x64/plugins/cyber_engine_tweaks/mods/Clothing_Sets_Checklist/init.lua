@@ -7,9 +7,11 @@
 
 local ClothingSetsDB = require("db")
 local GameSession    = require("Modules/GameSession")
+local GameUI         = require("Modules/GameUI")
 local ChecklistUI    = require("Modules/ChecklistUI")
 local SettingsUI     = require("Modules/SettingsUI")
 local Utils          = require("Modules/Utils")
+Utils.LogPrefix = IconGlyphs.TshirtCrew .. " [Clothing Sets Checklist] "
 local Automation     = require("Modules/Automation")
 
 -- ### MOD STATE ###
@@ -174,6 +176,7 @@ registerForEvent("onInit", function()
     local Mod = Engine.Register("Clothing_Sets_Checklist")
 
     LoadConfig()
+    Utils.SetDebugMode(settings.dev_mode_enabled)
 
     GameSession.StoreInDir('sessions')
     GameSession.Persist(sessionState)
@@ -200,13 +203,11 @@ registerForEvent("onInit", function()
         Automation.SetInCutscene(tier > 1)
     end)
 
-    -- 0-Engine: menu pause/resume
-    Engine.Subscribe("MenuOpen", function()
-        Automation.SetMenuPaused(true)
-    end)
-    Engine.Subscribe("MenuClose", function()
-        Automation.SetMenuPaused(false)
-    end)
+    -- GameUI: handles loading screens and menus with correct timing.
+    GameUI.OnLoadingStart(function() Automation.SetMenuPaused(true) end)
+    GameUI.OnLoadingFinish(function() Automation.SetMenuPaused(false) end)
+    GameUI.OnMenuOpen(function() Automation.SetMenuPaused(true) end)
+    GameUI.OnMenuClose(function() Automation.SetMenuPaused(false) end)
 
     -- INVENTORY LISTENER: O(1) lookup via ChecklistCore's pre-built TDBID table
     Observe("UIInventoryScriptableSystem", "OnInventoryItemAdded", function(_, request)
@@ -219,11 +220,15 @@ registerForEvent("onInit", function()
         Automation.OnItemLooted(tdbid, "Clothing Item Looted")
     end)
 
-    -- v0.18.0+: PlayerInvalidated no longer fires on vendor opens or transient hiccups.
+    -- PlayerInvalidated: resource cleanup only. Still fires on some vendor opens.
     Engine.Subscribe("PlayerInvalidated", function()
-        Utils.Log("Player Invalidated. Stopping mod.")
-        isSessionActive = false
+        Utils.Log("Player Invalidated. Cleaning up SpatialSet.")
         Automation.UnregisterItemSet()
+    end)
+
+    GameSession.OnEnd(function()
+        Utils.Log("Game Session Ended.")
+        isSessionActive = false
     end)
 
     Mod.WhenReady(function(_)
@@ -231,10 +236,11 @@ registerForEvent("onInit", function()
         isSessionActive = true
 
         Automation.Init(sessionState, uiCallbacks, settings.dev_mode_enabled, settings)
-        Automation.SetMenuPaused(false)
-        ScanAllItems()
-        Automation.UpdateState()        -- register SpatialSet
-        Automation.Scan()               -- immediate proximity check
+        Automation.UpdateState()  -- register SpatialSet and zones (suppressed if loading)
+        if not GameSession.IsPaused() then
+            ScanAllItems()
+            Automation.Scan()
+        end
     end, nil, 2)
 
     Utils.Log("Loaded (Wait for Player Ready).")
@@ -265,6 +271,7 @@ end)
 
 local function ToggleDebug()
     settings.dev_mode_enabled = not settings.dev_mode_enabled
+    Utils.SetDebugMode(settings.dev_mode_enabled)
     Automation.Init(sessionState, uiCallbacks, settings.dev_mode_enabled, settings)
     if settings.dev_mode_enabled then
         Utils.Log("Debug Mode ENABLED.")
