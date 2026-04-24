@@ -2,38 +2,31 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: Tracks Role Sets clothing items using Shared UI and Persistent Settings.
--- Mod Version: 1.2.4
---=======================================================================================
+-- Mod Version: 1.3.0
+-- ======================================================================================
 
 local ClothingSetsDB = require("db")
-local GameSession = require("Modules/GameSession")
-local ChecklistUI = require("Modules/ChecklistUI")
-local SettingsUI = require("Modules/SettingsUI")
-local Utils = require("Modules/Utils")
-local Automation = require("Modules/Automation")
-local Cron = require("Modules/Cron")
+local GameSession    = require("Modules/GameSession")
+local ChecklistUI    = require("Modules/ChecklistUI")
+local SettingsUI     = require("Modules/SettingsUI")
+local Utils          = require("Modules/Utils")
+local Automation     = require("Modules/Automation")
 
 -- ### MOD STATE ###
 
--- Persistent State Container (Session Progress)
 local sessionState = {
     progress = {}
 }
 
--- Global Settings (Config.json)
 local settings = {
-    lazy_mode = false,
+    lazy_mode  = false,
     show_baseid = false
 }
 
--- Init Utils
-local isOverlayOpen = false
+local isOverlayOpen   = false
 local isSessionActive = false
--- Runtime State (Non-persistent)
-local runtimeState = {
-    current_mappin = nil
-}
-local config_file = "config.json"
+local runtimeState    = { current_mappin = nil }
+local config_file     = "config.json"
 
 -- ### CONFIG IO ###
 
@@ -57,8 +50,8 @@ local function LoadConfig()
             end
         end
     end
-    -- Enforce Dev Mode Off for this mod -> Removed to support console toggle
-    -- settings.dev_mode_enabled = false
+    if settings.automation_enabled == nil then settings.automation_enabled = true end
+    if not settings.scanner_radius then settings.scanner_radius = 50.0 end
 end
 
 -- ### HELPERS ###
@@ -74,17 +67,14 @@ local function InitializeProgress()
 end
 
 local function CheckItemOwned(baseID)
-    local ts = Game.GetTransactionSystem()
     local player = GetPlayer()
-    if not player or not ts then return false end
+    if not player then return false end
 
-    -- ensure "Items." prefix is handled
     local finalID = baseID
     if not string.find(baseID, "Items%.") then
         finalID = "Items." .. baseID
     end
 
-    -- 2. Check Wardrobe (Transmog)
     local tdbid = TweakDBID.new(finalID)
     local wardrobeSystem = Game.GetWardrobeSystem()
     if wardrobeSystem then
@@ -93,24 +83,16 @@ local function CheckItemOwned(baseID)
             return true
         end
     end
-
     return false
 end
 
 local function ScanAllItems()
-    local found_new = false
     for _, cat in ipairs(ClothingSetsDB) do
         for _, entry in ipairs(cat.entries) do
-            -- Optimization: Only check if not already marked as collected
             if not sessionState.progress[entry.id] and entry.baseID then
                 if CheckItemOwned(entry.baseID) then
-                    if Automation.SetItemStatus then
-                        Automation.SetItemStatus(entry.id, true)
-                    else
-                        sessionState.progress[entry.id] = true
-                    end
+                    Automation.SetItemStatus(entry.id, true)
                     Utils.Log("Found item: " .. entry.name)
-                    found_new = true
                 end
             end
         end
@@ -120,11 +102,6 @@ end
 -- ### CALLBACKS ###
 
 local uiCallbacks = {
-    -- Auto-only: Manual toggling disabled
-    -- onToggle = function(id, value)
-    --     modState.progress[id] = value
-    -- end,
-
     onAction = function(action, entry)
         local player = GetPlayer()
 
@@ -149,18 +126,13 @@ local uiCallbacks = {
     end,
 
     drawCustomActions = function(entry)
-        -- Custom "Give Item" button
         if ImGui.Button(IconGlyphs.Gift .. " Give Item") then
             local player = GetPlayer()
             if player and entry.baseID then
-                -- Ensure "Items." prefix for TweakDB path
                 local finalID = entry.baseID
                 if not string.find(finalID, "Items%.") then
                     finalID = "Items." .. finalID
                 end
-
-                -- Use Game.AddToInventory for save-persistent item granting
-                -- (TransactionSystem:GiveItem creates transient items that vanish on reload)
                 Game.AddToInventory(finalID, 1)
                 Utils.Notify("Item Added: " .. entry.name)
                 Automation.SetItemStatus(entry.id, true)
@@ -172,7 +144,6 @@ local uiCallbacks = {
     end,
 
     drawSettings = function()
-        -- Delegate to SettingsUI with Runtime State
         SettingsUI.Draw(settings, runtimeState, {
             onSettingChanged = function()
                 Automation.UpdateState()
@@ -192,22 +163,24 @@ local uiCallbacks = {
     end
 }
 
--- ### INIT ###
+-- ### EVENTS ###
 
 registerForEvent("onInit", function()
+    local Engine = GetMod("0-Engine")
+    if not Engine then
+        spdlog.error("[CSC] FATAL: 0-Engine not found. Install from Nexus (ID 27967).")
+        return
+    end
+    local Mod = Engine.Register("Clothing_Sets_Checklist")
+
     LoadConfig()
+
     GameSession.StoreInDir('sessions')
-    -- Persist session state (progress only)
     GameSession.Persist(sessionState)
 
     GameSession.OnLoad(function()
-        -- Initialize clean default progress
         local cleanProgress = InitializeProgress()
-
-        -- Ensure structure exists (if loading old save)
         if not sessionState.progress then sessionState.progress = {} end
-
-        -- Merge Progress
         for id, _ in pairs(cleanProgress) do
             if sessionState.progress[id] == nil then
                 sessionState.progress[id] = false
@@ -215,107 +188,89 @@ registerForEvent("onInit", function()
         end
     end)
 
-    -- Enforce defaults for new settings if missing
-    if settings.automation_enabled == nil then settings.automation_enabled = true end
-    if not settings.scanner_interval then settings.scanner_interval = 5.0 end
-    if not settings.scanner_radius then settings.scanner_radius = 50.0 end
-
-    GameSession.OnStart(function()
-        isSessionActive = true
-
-        -- Initialize Automation
-        Automation.Init(sessionState, uiCallbacks, false, settings)
-        Automation.SetupObservers()
-
-        -- Auto-Scan logic moved here for performance (after load complete)
-        ScanAllItems()
+    GameSession.OnSave(function()
+        SaveConfig()
     end)
 
-    -- INVENTORY LISTENER: Immediate Notification on Loot
-    -- Switching to UIInventoryScriptableSystem as it reliably fires for all loot sources
+    -- 0-Engine: combat and cutscene suppression
+    Engine.Subscribe("CombatStateChanged", function(inCombat)
+        Automation.SetInCombat(inCombat)
+    end)
+    Engine.Subscribe("SceneTierChanged", function(tier)
+        Automation.SetInCutscene(tier > 1)
+    end)
+
+    -- 0-Engine: menu pause/resume
+    Engine.Subscribe("MenuOpen", function()
+        Automation.SetMenuPaused(true)
+    end)
+    Engine.Subscribe("MenuClose", function()
+        Automation.SetMenuPaused(false)
+    end)
+
+    -- INVENTORY LISTENER: O(1) lookup via ChecklistCore's pre-built TDBID table
     Observe("UIInventoryScriptableSystem", "OnInventoryItemAdded", function(_, request)
         if not isSessionActive then return end
-
-        local itemID = request.itemID
-        local tdbid = ItemID.GetTDBID(itemID)
-
+        local tdbid = ItemID.GetTDBID(request.itemID)
         if not tdbid then return end
-
-        local idString = tostring(tdbid)
-
-        -- DEBUG LOGGING
         if settings.dev_mode_enabled then
-            Utils.Log("[Loot] Item Added: " .. idString, Utils.LogLevel.Debug)
+            Utils.Log("[Loot] Item Added: " .. tostring(tdbid), Utils.LogLevel.Debug)
         end
-
-        -- Check if this item is in our checklist and uncollected
-        for _, cat in ipairs(ClothingSetsDB) do
-            for _, entry in ipairs(cat.entries) do
-                if not sessionState.progress[entry.id] and entry.baseID then
-                    local fullID = entry.baseID
-                    if not string.find(fullID, "Items%.") then fullID = "Items." .. fullID end
-
-                    local entryTDBID = TweakDBID.new(fullID)
-
-                    -- Direct TweakDBID comparison (handles hashes internally)
-                    if tdbid == entryTDBID then
-                        if Automation.SetItemStatus then
-                            Automation.SetItemStatus(entry.id, true)
-                        else
-                            sessionState.progress[entry.id] = true
-                        end
-                        Utils.Notify("Clothing Item Looted: " .. entry.name)
-
-                        -- Log Success for easier debugging
-                        if settings.dev_mode_enabled then
-                            Utils.Log("[Loot] MATCH FOUND: " .. entry.name, Utils.LogLevel.Debug)
-                        end
-                    end
-                end
-            end
-        end
+        Automation.OnItemLooted(tdbid, "Clothing Item Looted")
     end)
 
-    GameSession.OnEnd(function()
+    -- v0.18.0+: PlayerInvalidated no longer fires on vendor opens or transient hiccups.
+    Engine.Subscribe("PlayerInvalidated", function()
+        Utils.Log("Player Invalidated. Stopping mod.")
         isSessionActive = false
+        Automation.UnregisterItemSet()
     end)
-end)
 
-registerForEvent("onUpdate", function(deltaTime)
-    Cron.Update(deltaTime)
+    Mod.WhenReady(function(_)
+        Utils.Log("Player Ready. Initializing Automation.")
+        isSessionActive = true
+
+        Automation.Init(sessionState, uiCallbacks, settings.dev_mode_enabled, settings)
+        Automation.SetMenuPaused(false)
+        ScanAllItems()
+        Automation.UpdateState()        -- register SpatialSet
+        Automation.Scan()               -- immediate proximity check
+    end, nil, 2)
+
+    Utils.Log("Loaded (Wait for Player Ready).")
 end)
 
 registerForEvent("onOverlayOpen", function()
     isOverlayOpen = true
     if isSessionActive then
         ScanAllItems()
+        Automation.Scan()
     end
 end)
-registerForEvent("onOverlayClose", function() isOverlayOpen = false end)
 
-local checklist_mode = "automatic"
+registerForEvent("onOverlayClose", function()
+    isOverlayOpen = false
+end)
 
 registerForEvent("onDraw", function()
     if isOverlayOpen then
         if isSessionActive then
             ChecklistUI.Draw("Clothing Sets Checklist", true, ClothingSetsDB, sessionState.progress, settings,
-                uiCallbacks, checklist_mode)
+                uiCallbacks, "automatic")
         else
             ChecklistUI.DrawSplashScreen("Clothing Sets Checklist")
         end
     end
 end)
 
--- Console Command to Toggle Debug Mode
 local function ToggleDebug()
     settings.dev_mode_enabled = not settings.dev_mode_enabled
+    Automation.Init(sessionState, uiCallbacks, settings.dev_mode_enabled, settings)
     if settings.dev_mode_enabled then
-        Utils.Log("Debug Mode ENABLED (Reload mod for full effect on INIT logic).")
+        Utils.Log("Debug Mode ENABLED.")
     else
         Utils.Log("Debug Mode DISABLED.")
     end
-    -- Re-init automation to update debug state
-    Automation.Init(sessionState, uiCallbacks, settings.dev_mode_enabled, settings)
     SaveConfig()
 end
 
