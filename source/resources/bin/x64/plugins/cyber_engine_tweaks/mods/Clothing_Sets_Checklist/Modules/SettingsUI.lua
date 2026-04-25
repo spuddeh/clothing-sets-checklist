@@ -1,8 +1,9 @@
 -- ======================================================================================
--- Mod Name: Clothing Sets Checklist
+-- SettingsUI.lua  (canonical: _shared/checklist/)
 -- Author: Spuddeh
--- Description: Handles drawing the Settings tab and standard mod functions.
--- Mod Version: 1.2.4
+-- Description: Shared settings panel for the Checklist mod family — automation toggle,
+--              scanner radius slider with debounce, drawCustomSettings callback.
+--              Deployed byte-identical to each mod.
 -- ======================================================================================
 
 local SettingsUI = {}

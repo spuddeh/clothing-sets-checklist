@@ -1,10 +1,9 @@
 -- ======================================================================================
--- Mod Name: Clothing Sets Checklist
+-- ChecklistUI.lua  (canonical: _shared/checklist/)
 -- Author: Spuddeh
--- Description: Shared UI Module for Checklist Mods.
---              Handles drawing the TabBar, List, and Detail views.
--- Mod Version: 1.2.4
---=======================================================================================
+-- Description: Shared ImGui rendering for the Checklist mod family — TabBar, list,
+--              detail view, drawCustomActions callback. Deployed byte-identical to each mod.
+-- ======================================================================================
 
 local ChecklistUI = {}
 
