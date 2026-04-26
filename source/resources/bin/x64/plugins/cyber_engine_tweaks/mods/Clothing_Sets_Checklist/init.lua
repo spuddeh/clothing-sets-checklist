@@ -27,7 +27,7 @@ local settings = {
 
 local isOverlayOpen   = false
 local isSessionActive = false
-local runtimeState    = { current_mappin = nil }
+local runtimeState    = { current_pin_entry_id = nil }
 local config_file     = "config.json"
 
 -- ### CONFIG IO ###
@@ -114,16 +114,16 @@ local uiCallbacks = {
                 Game.GetTeleportationFacility():Teleport(player, pos, rot)
             end
         elseif action == "mappin" then
-            if runtimeState.current_mappin then
-                Game.GetMappinSystem():UnregisterMappin(runtimeState.current_mappin)
-                runtimeState.current_mappin = nil
+            -- Clear any previous user pin (single-pin slot)
+            if runtimeState.current_pin_entry_id then
+                Automation.ClearUserPin(runtimeState.current_pin_entry_id)
+                runtimeState.current_pin_entry_id = nil
             end
-            local mappinData = MappinData.new()
-            mappinData.mappinType = TweakDBID.new('Mappins.DefaultStaticMappin')
-            mappinData.variant = gamedataMappinVariant.CustomPositionVariant
-            mappinData.visibleThroughWalls = true
-            local pin_pos = Vector4.new(entry.coords.x, entry.coords.y, entry.coords.z, 0)
-            runtimeState.current_mappin = Game.GetMappinSystem():RegisterMappin(mappinData, pin_pos)
+            if entry.coords then
+                Automation.SetUserPin(entry)
+                runtimeState.current_pin_entry_id = entry.id
+                Utils.Log("Map pin set for: " .. entry.name)
+            end
         end
     end,
 
@@ -150,6 +150,15 @@ local uiCallbacks = {
             onSettingChanged = function()
                 Automation.UpdateState()
                 SaveConfig()
+            end,
+            onClearAllPins = function()
+                if runtimeState.current_pin_entry_id then
+                    Automation.ClearUserPin(runtimeState.current_pin_entry_id)
+                    runtimeState.current_pin_entry_id = nil
+                    Utils.Log("Last map pin cleared.")
+                else
+                    Utils.Log("No map pin to clear.")
+                end
             end,
             drawCustomSettings = function()
                 local current_baseid = settings.show_baseid
