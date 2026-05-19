@@ -1,4 +1,10 @@
-# Clothing Sets Checklist — Nexus Changelogs
+# Clothing Sets Checklist - Nexus Changelogs
+
+### 2.0.0
+- New required dependency: 0-Engine (Nexus mod 27967, pure CET-only build). See the requirements section in the description. The mod will not run without it.
+- The proximity scanner was rebuilt on 0-Engine. It reacts to you crossing into range instead of polling on a timer, so there is no CPU cost when you are away from any item, and detection is tighter up close.
+- Fixed: Johnny's Shoes and Johnny's Pants no longer trigger the scanner before those items are actually accessible.
+- Removed the scanner interval setting. The new system has no polling interval so it no longer applies.
 
 ### 1.2.3
 - Fixed a bug where items granted with the "Give item" button don't persist through saves.
@@ -35,9 +41,15 @@ No issues flagged.
 ```
 [color=#ffff00][size=5][b]- Changes -[/b][/size][/color]
 
-[b][size=3]Version 1.2.3[/size][/b]
-[list][*]Fixed a bug where items granted with the "Give item" button don't persist through saves.
+[b][size=3]Version 2.0.0[/size][/b]
+[list][*]New required dependency: 0-Engine (Nexus mod 27967, pure CET-only build). The mod will not run without it. See the requirements section in the description.
+[*]The proximity scanner was rebuilt on 0-Engine. No CPU cost when you are away from any item, and tighter detection up close.
+[*]Fixed: Johnny's Shoes and Johnny's Pants no longer trigger the scanner before those items are actually accessible.
+[*]Removed the scanner interval setting (the new system has no polling interval).
 [/list]
+[b][size=3]Version 1.2.3[/size][/b]
+[spoiler][list][*]Fixed a bug where items granted with the "Give item" button don't persist through saves.
+[/list][/spoiler]
 [b][size=3]Version 1.2.2[/size][/b]
 [spoiler][list][*]Added the missing container locations and data for the Yorinobu set
 [/list][/spoiler]
@@ -61,4 +73,4 @@ No issues flagged.
 [/list][/spoiler]
 ```
 
-> Character count: 1623 / 5000
+> Character count: ~2000 / 5000

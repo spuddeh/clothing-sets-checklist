@@ -2,7 +2,7 @@
 -- Mod Name: Clothing Sets Checklist
 -- Author: Spuddeh
 -- Description: CSC-specific automation logic. Delegates shared behaviour to ChecklistCore.
--- Mod Version: 1.3.0
+-- Mod Version: 2.0.0
 -- ======================================================================================
 
 local Automation     = {}
