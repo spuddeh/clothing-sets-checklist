@@ -1,7 +1,7 @@
 ### [2026-05-19] v2.0.0 — 0-Engine migration
 
 - **[Major] Proximity backend migrated from Cron polling to 0-Engine reactive primitives** (SpatialSet + per-entry detection zones). Removed `Cron.lua`, the polling loop, and the `scanner_interval` config. `init.lua` rewritten: `GetMod` inside `onInit`, `Mod.WhenReady` priority 2, `GameSession.OnEnd` for `isSessionActive` gating. `Automation.lua` is a thin wrapper over the shared `ChecklistCore` (byte-identical across all 4 mods).
-- **[New] Required dependency**: 0-Engine (Nexus 27967, pure CET-only build, 1.18.2+). 0-Engine itself requires CET 1.32+, Codeware 1.12+, redscript 0.5.19+.
+- **[New] Required dependency**: 0-Engine (Nexus 27967, pure CET-only build, 0.18.3+). 0-Engine itself requires CET 1.32+, Codeware 1.12+, redscript 0.5.19+.
 - **[Change] No `PlayerInvalidated` teardown subscriber.** 0-Engine's `Reset()` does not unregister sets/zones; subscribing a teardown there converts a transient false-invalidation into permanent breakage. Registrations persist; 0-Engine auto-resumes on Lifecycle recovery. (Wiki: `learnings/0-engine-playerinvalidated-no-teardown`.)
 - **[Change] "Set Pin" decoupled** into a standalone `init.lua` manual waypoint, independent of Core. Net user-facing behaviour unchanged. (Wiki: `decisions/user-pin-decoupled-from-core`.)
 - **[Fix] Johnny's Shoes / Johnny's Pants** quest-fact gating (the unreleased v1.2.4 data fix) folded into this release: scanner no longer triggers for them before they are accessible. Quest-fact gating handled via Core `canShow`.
