@@ -31,6 +31,10 @@
 
 * **Show Base ID:** Toggles display of the raw TweakDB ID for each item (useful for console commands).
 
+## 📜 License
+
+Licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE). You may use, modify, and share this mod and its source for any **noncommercial** purpose, as long as you credit the original creator. Commercial use, including paid mods or selling, is not permitted. This mirrors the [mod's Nexus permissions](https://www.nexusmods.com/cyberpunk2077/mods/26829).
+
 ## 🤖 Disclaimer
 
 This mod was developed with the assistance of an LLM. All in-game testing and code validation was performed by a human. No rogue AIs were permitted through the Blackwall.
