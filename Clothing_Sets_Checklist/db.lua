@@ -1112,7 +1112,10 @@ local ClothingSetsDB = {
                 sub_district = ""
             }
         }
-    } --[[,
+    }
+    -- Life path and epilogue sets are excluded on purpose. The data below is kept commented
+    -- out for reference; it is not loaded.
+    --[[,
     {
         category = "Life Paths",
         entries = {
